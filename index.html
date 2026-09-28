@@ -74,11 +74,13 @@
     .hero-notes span + span { display: flex; gap: 1rem; }
     .hero-notes span + span::before { width: 1px; height: 1em; background: var(--gold); content: ""; }
 
-    .hero-stage { position: relative; min-height: min(560px, 65vh); display: grid; place-items: center; isolation: isolate; }
-    .hero-stage::before { position: absolute; inset: 3% 0; border-left: 1px solid var(--rule); content: ""; }
-    .book-wrap { position: relative; z-index: 1; width: min(100%, 650px); padding: 0; background: #0c0b09; box-shadow: 0 30px 55px rgba(32,25,12,.18); }
-    .book-wrap::before { position: absolute; z-index: -1; left: 50%; bottom: -1.1rem; width: 78%; height: 2.2rem; border-radius: 50%; background: rgba(11,11,10,.2); content: ""; filter: blur(13px); transform: translateX(-50%); }
-    .book { display: block; width: 100%; height: auto; aspect-ratio: 4000 / 2667; border: 0; box-shadow: none; transform: none; }
+    .hero-stage { position: relative; min-height: min(590px, 68vh); display: grid; place-items: center; isolation: isolate; }
+    .book-wrap { position: relative; z-index: 1; width: min(100%, 570px); padding: 0; background: transparent; box-shadow: none; }
+    .book { display: block; width: 100%; height: auto; aspect-ratio: auto; border: 0; filter: drop-shadow(0 2.1rem 1.8rem rgba(36, 26, 9, .22)); transform: translateZ(0); }
+    @media (prefers-reduced-motion: no-preference) {
+      .book { animation: book-float 6s var(--ease) infinite alternate; }
+      @keyframes book-float { from { transform: translate3d(0, -.25rem, 0); } to { transform: translate3d(0, .65rem, 0); } }
+    }
 
     .marquee { overflow: hidden; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
     .marquee-track { display: flex; width: max-content; padding: 1.05rem 0; animation: marquee 27s linear infinite; }
@@ -169,7 +171,7 @@
       .hero-copy { order: 1; }
       .hero-stage { min-height: auto; padding: 1rem 0 4.5rem; }
       .hero-stage { order: 2; }
-      .book-wrap { width: min(600px, 92vw); }
+      .book-wrap { width: min(520px, 92vw); }
       .statement-side { margin-top: 1rem; }
       .statement-copy { max-width: 11ch; }
       .case-grid { grid-template-columns: repeat(2, 1fr); }
@@ -186,7 +188,7 @@
       .hero { padding-top: 6rem; }
       .hero-title { font-size: clamp(4.15rem, 19vw, 6rem); }
       .hero-stage { min-height: auto; margin-top: 1rem; padding-bottom: 3rem; }
-      .book-wrap { width: min(520px, 92vw); }
+      .book-wrap { width: min(420px, 94vw); }
       .hero-notes { margin-top: 2.5rem; }
       .button { min-height: 3.15rem; padding: 0 .85rem; font-size: .59rem; }
       .film-grid { gap: 2.4rem; }
@@ -235,7 +237,7 @@
           </div>
 
           <div class="hero-stage" aria-label="Cosmic Court book cover">
-            <div class="book-wrap"><img class="book" src="assets/cosmic-court-mockup.jpeg" width="4000" height="2667" alt="Cosmic Court: The Legalist official two-book paperback mockup by Iesha D. Golden" /></div>
+            <div class="book-wrap"><img class="book" src="assets/cosmic-court-mockup-floating.png" width="819" height="893" alt="Cosmic Court: The Legalist official two-book paperback mockup by Iesha D. Golden" /></div>
           </div>
         </div>
       </section>
