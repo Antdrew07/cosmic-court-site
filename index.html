@@ -272,14 +272,14 @@
       <section class="film-section" id="film" aria-labelledby="film-title">
         <div class="wrap film-grid">
           <div class="film-copy" data-reveal>
-            <div class="eyebrow">Official motion teaser</div>
+            <div class="eyebrow">Official book trailer</div>
             <h2 class="film-title" id="film-title">The gavel has fallen.</h2>
             <p>Witness the opening strike: judgment, consequence, and a case only the Advocate can overturn.</p>
           </div>
           <div class="trailer-card" data-reveal>
             <div class="trailer-fallback" aria-hidden="true"></div>
-            <video id="trailer-preview" muted loop playsinline preload="metadata" aria-label="Cosmic Court cinematic gavel-slam teaser"></video>
-            <span class="film-label">00:10 · Official teaser</span>
+            <video id="trailer-preview" muted loop playsinline preload="metadata" aria-label="Cosmic Court official book trailer"></video>
+            <span class="film-label">00:30 · Official trailer</span>
             <div class="trailer-content">
               <p>“The Accuser has your file.”</p>
               <button class="play" type="button" data-open-trailer aria-label="Play the Cosmic Court trailer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
@@ -356,9 +356,9 @@
     </footer>
   </div>
 
-  <dialog class="trailer-dialog" id="trailer-dialog" aria-label="Cosmic Court official teaser">
+  <dialog class="trailer-dialog" id="trailer-dialog" aria-label="Cosmic Court official book trailer">
     <button class="dialog-close" type="button" data-close-trailer aria-label="Close trailer">×</button>
-    <video class="dialog-video" id="trailer-full" controls playsinline preload="metadata" aria-label="Cosmic Court cinematic gavel-slam trailer"></video>
+    <video class="dialog-video" id="trailer-full" controls playsinline preload="metadata" aria-label="Cosmic Court official book trailer"></video>
   </dialog>
 
   <script>
@@ -368,7 +368,7 @@
       const preview = document.getElementById('trailer-preview');
       const full = document.getElementById('trailer-full');
       const dialog = document.getElementById('trailer-dialog');
-      const trailerSrc = 'assets/cosmic-court-gavel-reveal.mp4';
+      const trailerSrc = 'assets/cosmic-court-official-trailer.mp4';
 
       window.addEventListener('scroll', () => nav.classList.toggle('is-scrolled', window.scrollY > 34), { passive: true });
 
