@@ -57,7 +57,7 @@
     .hero { position: relative; min-height: 100svh; padding: 9.3rem 0 2.5rem; background: var(--paper); }
     .hero::before { position: absolute; inset: 0; z-index: 0; opacity: .38; background-image: linear-gradient(rgba(11,11,10,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(11,11,10,.05) 1px, transparent 1px); background-size: 48px 48px; content: ""; mask-image: linear-gradient(to bottom, #000, transparent 82%); }
     .hero::after { position: absolute; z-index: 0; right: -21rem; top: 8rem; width: 52rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(226,185,92,.22), rgba(226,185,92,.05) 29%, transparent 68%); content: ""; filter: blur(2px); pointer-events: none; }
-    .hero-grid { position: relative; z-index: 1; min-height: calc(100svh - 11.8rem); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(340px, .65fr); gap: clamp(2.5rem, 7vw, 9rem); align-items: center; }
+    .hero-grid { position: relative; z-index: 1; min-height: calc(100svh - 11.8rem); display: grid; grid-template-columns: minmax(0, .95fr) minmax(460px, .85fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: center; }
     .hero-copy { padding: 3.8rem 0 4rem; }
     .hero-title { max-width: 8.8ch; margin: 1.4rem 0 1.6rem; font: 400 clamp(4.2rem, 7.8vw, 7.5rem)/.9 var(--display); letter-spacing: -.045em; }
     .hero-title .gold { color: var(--gold); font-style: italic; }
@@ -74,11 +74,11 @@
     .hero-notes span + span { display: flex; gap: 1rem; }
     .hero-notes span + span::before { width: 1px; height: 1em; background: var(--gold); content: ""; }
 
-    .hero-stage { position: relative; min-height: min(690px, 72vh); display: grid; place-items: center; isolation: isolate; }
+    .hero-stage { position: relative; min-height: min(560px, 65vh); display: grid; place-items: center; isolation: isolate; }
     .hero-stage::before { position: absolute; inset: 3% 0; border-left: 1px solid var(--rule); content: ""; }
-    .book-wrap { position: relative; z-index: 1; width: min(100%, 420px); padding: .85rem; background: var(--paper); box-shadow: 0 30px 55px rgba(32,25,12,.16); }
+    .book-wrap { position: relative; z-index: 1; width: min(100%, 650px); padding: 0; background: #0c0b09; box-shadow: 0 30px 55px rgba(32,25,12,.18); }
     .book-wrap::before { position: absolute; z-index: -1; left: 50%; bottom: -1.1rem; width: 78%; height: 2.2rem; border-radius: 50%; background: rgba(11,11,10,.2); content: ""; filter: blur(13px); transform: translateX(-50%); }
-    .book { display: block; width: 100%; border: 1px solid rgba(226,185,92,.6); box-shadow: none; transform: none; }
+    .book { display: block; width: 100%; height: auto; aspect-ratio: 4000 / 2667; border: 0; box-shadow: none; transform: none; }
 
     .marquee { overflow: hidden; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
     .marquee-track { display: flex; width: max-content; padding: 1.05rem 0; animation: marquee 27s linear infinite; }
@@ -155,6 +155,7 @@
 
     [data-reveal] { opacity: 0; transform: translateY(2rem); transition: opacity .8s var(--ease), transform .8s var(--ease); }
     [data-reveal].visible { opacity: 1; transform: none; }
+    .hero [data-reveal] { opacity: 1; transform: none; }
     .hero [data-reveal]:nth-child(2) { transition-delay: .08s; }
     .hero [data-reveal]:nth-child(3) { transition-delay: .16s; }
     .hero [data-reveal]:nth-child(4) { transition-delay: .24s; }
@@ -165,8 +166,10 @@
       .hero-grid, .film-grid, .statement-grid, .author-grid { grid-template-columns: 1fr; }
       .hero { min-height: auto; padding-bottom: 3.5rem; }
       .hero-copy { padding: 1rem 0 0; }
+      .hero-copy { order: 1; }
       .hero-stage { min-height: auto; padding: 1rem 0 4.5rem; }
-      .book-wrap { width: min(360px, 78vw); }
+      .hero-stage { order: 2; }
+      .book-wrap { width: min(600px, 92vw); }
       .statement-side { margin-top: 1rem; }
       .statement-copy { max-width: 11ch; }
       .case-grid { grid-template-columns: repeat(2, 1fr); }
@@ -183,7 +186,7 @@
       .hero { padding-top: 6rem; }
       .hero-title { font-size: clamp(4.15rem, 19vw, 6rem); }
       .hero-stage { min-height: auto; margin-top: 1rem; padding-bottom: 3rem; }
-      .book-wrap { width: min(310px, 82vw); }
+      .book-wrap { width: min(520px, 92vw); }
       .hero-notes { margin-top: 2.5rem; }
       .button { min-height: 3.15rem; padding: 0 .85rem; font-size: .59rem; }
       .film-grid { gap: 2.4rem; }
@@ -232,7 +235,7 @@
           </div>
 
           <div class="hero-stage" aria-label="Cosmic Court book cover">
-            <div class="book-wrap"><img class="book" src="assets/cosmic-court-cover.jpg" width="760" height="1140" alt="Cosmic Court: The Legalist by Iesha D. Golden" /></div>
+            <div class="book-wrap"><img class="book" src="assets/cosmic-court-mockup.jpeg" width="4000" height="2667" alt="Cosmic Court: The Legalist official two-book paperback mockup by Iesha D. Golden" /></div>
           </div>
         </div>
       </section>
