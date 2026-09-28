@@ -8,7 +8,7 @@
   <title>Cosmic Court: The Legalist — Iesha D. Golden</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --paper: #f5f1e8;
@@ -19,7 +19,7 @@
       --gold: #bd8c2c;
       --gold-bright: #e2b95c;
       --rule: rgba(11, 11, 10, .16);
-      --display: "Bodoni Moda", Georgia, serif;
+      --display: "DM Serif Display", Georgia, serif;
       --sans: "Manrope", Arial, sans-serif;
       --mono: "DM Mono", monospace;
       --ease: cubic-bezier(.22, 1, .36, 1);
@@ -56,10 +56,10 @@
 
     .hero { position: relative; min-height: 100svh; padding: 9.3rem 0 2.5rem; background: var(--paper); }
     .hero::before { position: absolute; inset: 0; z-index: 0; opacity: .38; background-image: linear-gradient(rgba(11,11,10,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(11,11,10,.05) 1px, transparent 1px); background-size: 48px 48px; content: ""; mask-image: linear-gradient(to bottom, #000, transparent 82%); }
-    .hero::after { position: absolute; z-index: 0; right: -21rem; top: 8rem; width: 52rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(226,185,92,.34), rgba(226,185,92,.08) 29%, transparent 68%); content: ""; filter: blur(2px); pointer-events: none; }
-    .hero-grid { position: relative; z-index: 1; min-height: calc(100svh - 11.8rem); display: grid; grid-template-columns: minmax(0, .88fr) minmax(440px, 1.12fr); gap: clamp(2rem, 5vw, 7rem); align-items: center; }
+    .hero::after { position: absolute; z-index: 0; right: -21rem; top: 8rem; width: 52rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(226,185,92,.22), rgba(226,185,92,.05) 29%, transparent 68%); content: ""; filter: blur(2px); pointer-events: none; }
+    .hero-grid { position: relative; z-index: 1; min-height: calc(100svh - 11.8rem); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(340px, .65fr); gap: clamp(2.5rem, 7vw, 9rem); align-items: center; }
     .hero-copy { padding: 3.8rem 0 4rem; }
-    .hero-title { max-width: 8.3ch; margin: 1.4rem 0 1.6rem; font: 500 clamp(4.75rem, 10vw, 10.3rem)/.76 var(--display); letter-spacing: -.075em; }
+    .hero-title { max-width: 8.8ch; margin: 1.4rem 0 1.6rem; font: 400 clamp(4.2rem, 7.8vw, 7.5rem)/.9 var(--display); letter-spacing: -.045em; }
     .hero-title .gold { color: var(--gold); font-style: italic; }
     .hero-dek { max-width: 29rem; margin: 0; color: var(--ink-soft); font-size: clamp(1.05rem, 1.35vw, 1.36rem); line-height: 1.45; }
     .hero-dek b { color: var(--ink); }
@@ -74,20 +74,11 @@
     .hero-notes span + span { display: flex; gap: 1rem; }
     .hero-notes span + span::before { width: 1px; height: 1em; background: var(--gold); content: ""; }
 
-    .hero-stage { position: relative; min-height: min(700px, 76vh); isolation: isolate; }
-    .hero-video-frame { position: absolute; z-index: 0; inset: 6% 0 3% 8%; overflow: hidden; background: #0a0907; box-shadow: 24px 32px 58px rgba(20,16,7,.19); }
-    .hero-video-frame::after { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,5,4,.42), transparent 55%), linear-gradient(to top, rgba(5,5,4,.65), transparent 45%); content: ""; pointer-events: none; }
-    .hero-video { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.16) saturate(1.08); }
-    .stage-index { position: absolute; z-index: 4; right: -1.3rem; top: 9%; padding: .55rem .6rem; background: var(--paper); color: var(--ink); font: 500 .6rem/1 var(--mono); letter-spacing: .12em; writing-mode: vertical-rl; text-transform: uppercase; }
-    .book-wrap { position: absolute; z-index: 3; left: 4%; bottom: 0; width: min(43%, 300px); perspective: 1300px; }
-    .book-wrap::before { position: absolute; z-index: -1; left: 50%; bottom: 2%; width: 110%; height: 8%; border-radius: 50%; background: rgba(0,0,0,.58); content: ""; filter: blur(14px); transform: translateX(-50%); }
-    .book { --ry: -13deg; display: block; width: 100%; border: 1px solid rgba(226,185,92,.85); box-shadow: 24px 30px 50px rgba(0,0,0,.43), 0 0 0 10px rgba(245,241,232,.74); transform: rotateY(var(--ry)) rotateX(3deg); transform-origin: center right; transition: transform .25s var(--ease); }
-    .seal { position: absolute; z-index: 4; right: 3%; bottom: 8%; width: clamp(6.5rem, 10vw, 9.5rem); aspect-ratio: 1; display: grid; place-items: center; border: 1px solid var(--gold); border-radius: 50%; background: rgba(11,11,10,.92); color: var(--paper); box-shadow: 0 0 0 8px rgba(245,241,232,.78); font: 500 .56rem/1.35 var(--mono); letter-spacing: .11em; text-align: center; text-transform: uppercase; transform: rotate(12deg); }
-    .seal b { display: block; color: var(--gold-bright); font: 500 2.1rem/.8 var(--display); }
-    .stage-caption { position: absolute; z-index: 2; top: 14%; left: -3%; width: 9rem; color: var(--paper); font: 500 .55rem/1.45 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
-    .stage-caption::before { display: block; width: 2rem; height: 1px; margin-bottom: .65rem; background: var(--gold-bright); content: ""; }
-    .scroll-note { position: absolute; right: 0; bottom: 1rem; display: flex; align-items: center; gap: .6rem; color: var(--muted); font: 500 .58rem/1 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
-    .scroll-note::before { width: 4rem; height: 1px; background: var(--gold); content: ""; }
+    .hero-stage { position: relative; min-height: min(690px, 72vh); display: grid; place-items: center; isolation: isolate; }
+    .hero-stage::before { position: absolute; inset: 3% 0; border-left: 1px solid var(--rule); content: ""; }
+    .book-wrap { position: relative; z-index: 1; width: min(100%, 420px); padding: .85rem; background: var(--paper); box-shadow: 0 30px 55px rgba(32,25,12,.16); }
+    .book-wrap::before { position: absolute; z-index: -1; left: 50%; bottom: -1.1rem; width: 78%; height: 2.2rem; border-radius: 50%; background: rgba(11,11,10,.2); content: ""; filter: blur(13px); transform: translateX(-50%); }
+    .book { display: block; width: 100%; border: 1px solid rgba(226,185,92,.6); box-shadow: none; transform: none; }
 
     .marquee { overflow: hidden; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
     .marquee-track { display: flex; width: max-content; padding: 1.05rem 0; animation: marquee 27s linear infinite; }
@@ -98,7 +89,7 @@
     .statement { padding: clamp(6rem, 12vw, 12rem) 0; background: var(--paper); }
     .statement-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2rem; }
     .statement-number { color: var(--gold); font: 500 clamp(3rem, 5vw, 5rem)/.8 var(--display); }
-    .statement-copy { max-width: 18ch; margin: 1rem 0 0; font: 500 clamp(3.3rem, 7.6vw, 8.8rem)/.82 var(--display); letter-spacing: -.065em; }
+    .statement-copy { max-width: 18ch; margin: 1rem 0 0; font: 400 clamp(3.1rem, 6.5vw, 7.2rem)/.9 var(--display); letter-spacing: -.045em; }
     .statement-copy em { color: var(--gold); font-style: italic; }
     .statement-side { display: grid; align-content: end; gap: 2rem; padding-bottom: .6rem; }
     .statement-side p { max-width: 31rem; margin: 0; color: var(--ink-soft); font-size: 1.16rem; line-height: 1.55; }
@@ -106,7 +97,7 @@
     .film { position: relative; padding: clamp(5.5rem, 11vw, 10rem) 0; overflow: hidden; background: var(--ink); color: var(--paper); }
     .film::before { position: absolute; inset: 0; opacity: .3; background: radial-gradient(circle at 81% 25%, rgba(226,185,92,.35), transparent 24rem), linear-gradient(130deg, transparent 45%, rgba(226,185,92,.08)); content: ""; }
     .film-grid { position: relative; display: grid; grid-template-columns: .77fr 1.23fr; gap: clamp(2.5rem, 7vw, 7rem); align-items: end; }
-    .film-title { max-width: 7ch; margin: 1.1rem 0 1.7rem; font: 500 clamp(4.1rem, 7vw, 7rem)/.75 var(--display); letter-spacing: -.065em; }
+    .film-title { max-width: 7ch; margin: 1.1rem 0 1.7rem; font: 400 clamp(3.8rem, 6.2vw, 6.2rem)/.88 var(--display); letter-spacing: -.04em; }
     .film-title em { color: var(--gold-bright); font-style: italic; }
     .film-copy p { max-width: 24rem; color: #bdb7ac; font-size: 1.07rem; line-height: 1.52; }
     .trailer { position: relative; min-height: clamp(360px, 45vw, 600px); overflow: hidden; border: 1px solid rgba(226,185,92,.55); background: #080705; box-shadow: 22px 28px 0 rgba(226,185,92,.7); }
@@ -123,7 +114,7 @@
 
     .docket { padding: clamp(6rem, 11vw, 11rem) 0; background: var(--paper-deep); }
     .section-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 3.4rem; }
-    .section-title { margin: .8rem 0 0; font: 500 clamp(4rem, 7vw, 7.5rem)/.75 var(--display); letter-spacing: -.065em; }
+    .section-title { margin: .8rem 0 0; font: 400 clamp(3.8rem, 6.2vw, 6.5rem)/.88 var(--display); letter-spacing: -.045em; }
     .section-note { max-width: 20rem; margin: 0; color: var(--muted); font-size: .98rem; line-height: 1.5; }
     .case-grid { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
     .case { min-height: 23rem; display: flex; flex-direction: column; justify-content: space-between; padding: 1.35rem; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--paper); transition: color .35s var(--ease), background .35s var(--ease), transform .35s var(--ease); }
@@ -137,7 +128,7 @@
     .verdict { position: relative; padding: clamp(7rem, 14vw, 14rem) 0; overflow: hidden; background: var(--paper); text-align: center; }
     .verdict::before { position: absolute; z-index: 0; left: 50%; top: 50%; width: min(86vw, 67rem); aspect-ratio: 1; border: 1px solid rgba(189,140,44,.34); border-radius: 50%; box-shadow: 0 0 0 2rem rgba(189,140,44,.035), 0 0 0 6rem rgba(189,140,44,.025); content: ""; transform: translate(-50%,-50%); }
     .verdict > .shell { position: relative; z-index: 1; }
-    .verdict-quote { max-width: 13ch; margin: 1.2rem auto 2rem; font: 500 clamp(4rem, 8vw, 8.7rem)/.77 var(--display); letter-spacing: -.075em; }
+    .verdict-quote { max-width: 16ch; margin: 1.2rem auto 2rem; font: 400 clamp(3.05rem, 5.2vw, 5.8rem)/.96 var(--display); letter-spacing: -.035em; }
     .verdict-quote em { color: var(--gold); font-style: italic; }
     .verdict-copy { max-width: 35rem; margin: 0 auto; color: var(--ink-soft); font-size: 1.1rem; line-height: 1.55; }
     .verdict-actions { justify-content: center; margin-top: 2.4rem; }
@@ -174,9 +165,8 @@
       .hero-grid, .film-grid, .statement-grid, .author-grid { grid-template-columns: 1fr; }
       .hero { min-height: auto; padding-bottom: 3.5rem; }
       .hero-copy { padding: 1rem 0 0; }
-      .hero-stage { min-height: min(750px, 90vw); }
-      .hero-video-frame { inset: 5% 4% 5% 10%; }
-      .book-wrap { left: 7%; width: min(38%, 290px); }
+      .hero-stage { min-height: auto; padding: 1rem 0 4.5rem; }
+      .book-wrap { width: min(360px, 78vw); }
       .statement-side { margin-top: 1rem; }
       .statement-copy { max-width: 11ch; }
       .case-grid { grid-template-columns: repeat(2, 1fr); }
@@ -192,12 +182,8 @@
       .brand b { font-size: 1rem; }
       .hero { padding-top: 6rem; }
       .hero-title { font-size: clamp(4.15rem, 19vw, 6rem); }
-      .hero-stage { min-height: 30rem; margin-top: 1rem; }
-      .hero-video-frame { inset: 3% 0 7% 5%; }
-      .book-wrap { left: 4%; width: 43%; }
-      .seal { right: 1%; bottom: 10%; }
-      .stage-caption { left: 4%; top: 7%; }
-      .scroll-note { display: none; }
+      .hero-stage { min-height: auto; margin-top: 1rem; padding-bottom: 3rem; }
+      .book-wrap { width: min(310px, 82vw); }
       .hero-notes { margin-top: 2.5rem; }
       .button { min-height: 3.15rem; padding: 0 .85rem; font-size: .59rem; }
       .film-grid { gap: 2.4rem; }
@@ -245,13 +231,8 @@
             <div class="hero-notes" data-reveal><span>A novel by Iesha D. Golden</span><span>Paperback edition · 2026</span></div>
           </div>
 
-          <div class="hero-stage" id="hero-stage" aria-label="Cosmic Court cinematic book showcase">
-            <div class="hero-video-frame"><video class="hero-video" autoplay muted loop playsinline preload="metadata" src="assets/cosmic-court-gavel-reveal.mp4" aria-hidden="true"></video></div>
-            <div class="stage-caption">The record opens. Judgment follows.</div>
-            <div class="stage-index">File CC–001</div>
-            <div class="book-wrap"><img class="book" id="book" src="assets/cosmic-court-cover.jpg" width="760" height="1140" alt="Cosmic Court: The Legalist by Iesha D. Golden" /></div>
-            <div class="seal" aria-hidden="true"><span>Order</span><b>01</b><span>Beyond time</span></div>
-            <div class="scroll-note">Enter the record</div>
+          <div class="hero-stage" aria-label="Cosmic Court book cover">
+            <div class="book-wrap"><img class="book" src="assets/cosmic-court-cover.jpg" width="760" height="1140" alt="Cosmic Court: The Legalist by Iesha D. Golden" /></div>
           </div>
         </div>
       </section>
@@ -343,11 +324,6 @@
       dialog.addEventListener('click', event => { if (event.target === dialog) { full.pause(); dialog.close(); } });
       const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .12 });
       document.querySelectorAll('[data-reveal]').forEach(item => reduceMotion ? item.classList.add('visible') : observer.observe(item));
-      const book = document.getElementById('book'); const stage = document.getElementById('hero-stage');
-      if (!reduceMotion && matchMedia('(pointer:fine)').matches) {
-        stage.addEventListener('pointermove', event => { const r = stage.getBoundingClientRect(); const x = (event.clientX - r.left) / r.width - .5; book.style.setProperty('--ry', `${-13 + x * 18}deg`); });
-        stage.addEventListener('pointerleave', () => book.style.setProperty('--ry', '-13deg'));
-      }
     })();
   </script>
 </body>
