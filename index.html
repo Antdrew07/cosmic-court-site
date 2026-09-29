@@ -102,17 +102,21 @@
     .film-title { max-width: 7ch; margin: 1.1rem 0 1.7rem; font: 400 clamp(3.8rem, 6.2vw, 6.2rem)/.88 var(--display); letter-spacing: -.04em; }
     .film-title em { color: var(--gold-bright); font-style: italic; }
     .film-copy p { max-width: 24rem; color: #bdb7ac; font-size: 1.07rem; line-height: 1.52; }
-    .trailer { position: relative; min-height: clamp(360px, 45vw, 600px); overflow: hidden; border: 1px solid rgba(226,185,92,.55); background: #080705; box-shadow: 22px 28px 0 rgba(226,185,92,.7); }
+    .trailer { position: relative; min-height: clamp(360px, 45vw, 600px); overflow: hidden; border: 1px solid rgba(226,185,92,.55); background: #080705; box-shadow: 22px 28px 0 rgba(226,185,92,.7); cursor: pointer; }
     .trailer video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .78; transition: transform .8s var(--ease), opacity .5s var(--ease); }
     .trailer:hover video { opacity: 1; transform: scale(1.045); }
-    .trailer::after { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(0,0,0,.7), transparent 58%), linear-gradient(to top, rgba(0,0,0,.85), transparent 45%); content: ""; pointer-events: none; }
-    .trailer-ui { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(1.2rem, 2.5vw, 2rem); }
+    .trailer::after { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(0,0,0,.7), transparent 58%), linear-gradient(to top, rgba(0,0,0,.85), transparent 45%); content: ""; opacity: 1; pointer-events: none; transition: opacity .45s var(--ease); }
+    .trailer-ui { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(1.2rem, 2.5vw, 2rem); pointer-events: none; }
     .film-label { align-self: flex-start; padding: .55rem .7rem; border: 1px solid rgba(226,185,92,.58); background: rgba(0,0,0,.35); color: var(--gold-bright); font: 500 .57rem/1 var(--mono); letter-spacing: .15em; text-transform: uppercase; }
     .trailer-bottom { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
-    .trailer-quote { max-width: 10ch; margin: 0; font: 500 clamp(2.4rem, 4vw, 4.7rem)/.8 var(--display); letter-spacing: -.055em; }
-    .play { flex: none; width: 5.3rem; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid var(--gold-bright); border-radius: 50%; background: var(--gold); color: var(--ink); cursor: pointer; transition: transform .25s var(--ease), background .25s var(--ease); }
+    .trailer-quote { max-width: 10ch; margin: 0; font: 500 clamp(2.4rem, 4vw, 4.7rem)/.8 var(--display); letter-spacing: -.055em; transition: opacity .35s var(--ease), transform .35s var(--ease); }
+    .play { flex: none; width: 5.3rem; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid var(--gold-bright); border-radius: 50%; background: var(--gold); color: var(--ink); cursor: pointer; pointer-events: auto; transition: opacity .35s var(--ease), transform .25s var(--ease), background .25s var(--ease); }
     .play:hover { background: var(--paper); transform: scale(1.09); }
     .play svg { width: 1.5rem; margin-left: .12rem; }
+    .trailer.is-playing::after { opacity: .18; }
+    .trailer.is-playing .trailer-quote { opacity: 0; transform: translateY(1rem); }
+    .trailer.is-playing .play { opacity: 0; pointer-events: none; transform: scale(.9); }
+    .trailer.is-playing .film-label { background: rgba(0,0,0,.58); }
 
     .docket { padding: clamp(6rem, 11vw, 11rem) 0; background: var(--paper-deep); }
     .section-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 3.4rem; }
@@ -262,8 +266,8 @@
             <p>Judgment. Consequence. A case only the Advocate can overturn.</p>
             <button class="button" type="button" data-open-trailer>Play the full trailer</button>
           </div>
-          <div class="trailer" data-reveal>
-            <video id="trailer-preview" muted loop playsinline preload="metadata" aria-label="Cosmic Court official book trailer"></video>
+          <div class="trailer" id="trailer-card" data-reveal role="button" tabindex="0" aria-label="Open Cosmic Court official book trailer with sound">
+            <video id="trailer-preview" autoplay muted loop playsinline preload="auto" aria-label="Cosmic Court official book trailer preview"></video>
             <div class="trailer-ui">
               <span class="film-label">00:30 · Official trailer</span>
               <div class="trailer-bottom"><p class="trailer-quote">“The Accuser has your file.”</p><button class="play" type="button" data-open-trailer aria-label="Play the Cosmic Court trailer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button></div>
@@ -323,8 +327,22 @@
       const dialog = document.getElementById('trailer-dialog');
       const trailerSrc = 'assets/cosmic-court-official-trailer.mp4';
       window.addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 24), { passive: true });
-      preview.src = trailerSrc; full.src = trailerSrc; preview.play().catch(() => {});
-      document.querySelectorAll('[data-open-trailer]').forEach(button => button.addEventListener('click', () => { dialog.showModal(); full.play().catch(() => {}); }));
+      const trailerCard = document.getElementById('trailer-card');
+      const playPreview = () => {
+        if (reduceMotion) return;
+        preview.muted = true;
+        preview.defaultMuted = true;
+        preview.autoplay = true;
+        preview.play().then(() => trailerCard.classList.add('is-playing')).catch(() => {});
+      };
+      preview.src = trailerSrc; full.src = trailerSrc;
+      preview.addEventListener('canplay', playPreview, { once: true });
+      preview.addEventListener('play', () => trailerCard.classList.add('is-playing'));
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) playPreview(); });
+      const openTrailer = () => { dialog.showModal(); full.play().catch(() => {}); };
+      document.querySelectorAll('[data-open-trailer]').forEach(button => button.addEventListener('click', openTrailer));
+      trailerCard.addEventListener('click', event => { if (!event.target.closest('[data-open-trailer]')) openTrailer(); });
+      trailerCard.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openTrailer(); } });
       document.querySelector('[data-close-trailer]').addEventListener('click', () => { full.pause(); dialog.close(); });
       dialog.addEventListener('click', event => { if (event.target === dialog) { full.pause(); dialog.close(); } });
       const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .12 });
