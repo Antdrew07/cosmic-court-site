@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#fffcf5" />
-  <meta name="description" content="Cosmic Court: The Legalist — a gripping Christian spiritual warfare novel by Iesha D. Golden." />
-  <title>Cosmic Court: The Legalist — Iesha D. Golden</title>
+  <meta name="description" content="Cosmic Court: The Legalist, a gripping Christian spiritual warfare novel by Iesha D. Golden." />
+  <title>Cosmic Court: The Legalist by Iesha D. Golden</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -307,7 +307,7 @@
             <button class="button" type="button" data-open-trailer>Play the full trailer</button>
           </div>
           <div class="trailer" id="trailer-card" data-reveal role="button" tabindex="0" aria-label="Open Cosmic Court official book trailer with sound">
-            <video id="trailer-preview" autoplay muted loop playsinline preload="auto" aria-label="Cosmic Court official book trailer preview"></video>
+            <video id="trailer-preview" autoplay muted loop playsinline preload="metadata" poster="assets/trailer-poster.jpg" aria-label="Cosmic Court official book trailer preview"></video>
             <div class="trailer-ui">
               <span class="film-label">00:30 · Official trailer</span>
               <div class="trailer-bottom"><p class="trailer-quote">“The Accuser has your file.”</p><button class="play" type="button" data-open-trailer aria-label="Play the Cosmic Court trailer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button></div>
@@ -371,7 +371,7 @@
         <div class="shell author-grid">
           <div data-reveal><div class="eyebrow">The author</div><h2 class="author-name" id="author-title">Iesha<br />D. Golden</h2></div>
           <div class="author-copy" data-reveal>
-            <p>Iesha D. Golden is a board-certified Nurse Practitioner with over a decade of healthcare experience, including a background in critical care. Her time in the ICU—where she managed high-stakes crises and responded to urgent conditions—deeply shaped the way she understands both physical and spiritual battles.</p>
+            <p>Iesha D. Golden is a board-certified Nurse Practitioner with over a decade of healthcare experience, including a background in critical care. Her time in the ICU, where she managed high-stakes crises and responded to urgent conditions, deeply shaped the way she understands both physical and spiritual battles.</p>
             <p>Now based in Texas, her writing reflects a diagnostic passion for identifying hidden root causes, confronting spiritual deception, and helping wounded souls find restoration through Jesus Christ.</p>
             <a class="text-link" href="https://www.instagram.com/Ieshaa_Ieshaaa" target="_blank" rel="noopener">Follow Iesha on Instagram</a>
           </div>
@@ -391,6 +391,7 @@
       const preview = document.getElementById('trailer-preview');
       const full = document.getElementById('trailer-full');
       const dialog = document.getElementById('trailer-dialog');
+      const previewSrc = 'assets/cosmic-court-trailer-preview.mp4';
       const trailerSrc = 'assets/cosmic-court-official-trailer.mp4';
       window.addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 24), { passive: true });
       const trailerCard = document.getElementById('trailer-card');
@@ -401,7 +402,7 @@
         preview.autoplay = true;
         preview.play().then(() => trailerCard.classList.add('is-playing')).catch(() => {});
       };
-      preview.src = trailerSrc; full.src = trailerSrc;
+      preview.src = previewSrc; full.src = trailerSrc;
       preview.addEventListener('canplay', playPreview, { once: true });
       preview.addEventListener('play', () => trailerCard.classList.add('is-playing'));
       document.addEventListener('visibilitychange', () => { if (!document.hidden) playPreview(); });
