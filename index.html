@@ -323,6 +323,49 @@
           </div>
         </div>
       </section>
+
+      <section class="readers" id="readers" aria-labelledby="readers-title">
+        <style>
+          .readers { border-top: 1px solid rgba(242,196,92,.5); background: linear-gradient(100deg, var(--ink-rich), #1e1609 52%, var(--ink-rich)); color: var(--paper); padding: clamp(4rem, 8vw, 7rem) 0; }
+          .readers-inner { display: grid; gap: 1.1rem; justify-items: center; text-align: center; }
+          .readers .section-title { color: var(--paper); margin: 0; }
+          .readers-copy { max-width: 32rem; margin: 0; color: rgba(255,245,225,.72); font-size: 1.08rem; line-height: 1.55; }
+          .reader-form { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; margin-top: .6rem; }
+          .reader-form input { min-width: min(16rem, 80vw); padding: .95rem 1.05rem; border: 1px solid rgba(242,196,92,.45); background: rgba(13,10,7,.6); color: var(--paper); font: 500 .85rem var(--mono); letter-spacing: .05em; }
+          .reader-form input:focus { outline: 1px solid var(--gold-bright); }
+          .reader-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+          .reader-note { min-height: 1.2em; margin: .4rem 0 0; color: var(--gold-bright); font: 500 .72rem var(--mono); letter-spacing: .1em; }
+        </style>
+        <div class="shell readers-inner">
+          <div class="eyebrow">The reader list</div>
+          <h2 class="section-title" id="readers-title">Enter the court record.</h2>
+          <p class="readers-copy">Join Iesha's reader list for release news, behind-the-scenes case files, and first word on the companion workbook.</p>
+          <form id="reader-form" class="reader-form" novalidate>
+            <input type="text" name="name" placeholder="First name" aria-label="First name" />
+            <input type="email" name="email" required placeholder="Email address" aria-label="Email address" />
+            <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button class="button gold" type="submit">Join the list</button>
+          </form>
+          <p class="reader-note" id="reader-note" role="status" aria-live="polite"></p>
+        </div>
+        <script>
+          (function () {
+            var form = document.getElementById('reader-form');
+            var note = document.getElementById('reader-note');
+            form.addEventListener('submit', function (e) {
+              e.preventDefault();
+              var data = { name: form.name.value, email: form.email.value, company: form.company.value };
+              fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+                .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+                .then(function (res) {
+                  if (res.ok) { note.textContent = 'You are on the record. Welcome to the court.'; form.reset(); }
+                  else { note.textContent = res.j.error || 'Something went wrong. Please try again.'; }
+                })
+                .catch(function () { note.textContent = 'Something went wrong. Please try again.'; });
+            });
+          })();
+        </script>
+      </section>
     </main>
 
     <footer class="footer"><div class="shell footer-inner"><div class="footer-title">Cosmic Court:<b>The Legalist</b></div><div class="footer-meta">Published by Kingdom Publications · ISBN 979-8-9957753-2-4 · Copyright 2026 Iesha D. Golden. All rights reserved.</div></div></footer>

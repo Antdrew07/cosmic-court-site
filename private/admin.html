@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Marketing Studio</title>
+<style>
+:root{--ink:#0d0a07;--panel:#15110a;--panel2:#1c160c;--line:#3a2f1c;--gold:#c9a24b;--gold-b:#deba6a;--cream:#f4ecdc;--dim:#a08a60;--ok:#7cbf8e;--bad:#e08a7a;--serif:Georgia,'Times New Roman',serif;--mono:'Courier New',monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--serif);min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem clamp(1rem,4vw,2.5rem);border-bottom:1px solid var(--line);background:linear-gradient(110deg,#0d0a07,#17110a 60%,#0d0a07)}
+.brand b{letter-spacing:.28em;color:var(--gold-b);font-weight:600}
+.brand span{display:block;margin-top:.2rem;color:var(--dim);font:500 .6rem var(--mono);letter-spacing:.2em}
+.hbtns{display:flex;gap:.6rem}
+nav{display:flex;flex-wrap:wrap;gap:.4rem;padding:.8rem clamp(1rem,4vw,2.5rem);border-bottom:1px solid var(--line)}
+nav button{padding:.55rem 1rem;border:1px solid var(--line);background:transparent;color:var(--dim);font:600 .68rem var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+nav button.active{border-color:var(--gold);color:var(--gold-b);background:var(--panel)}
+main{padding:clamp(1rem,4vw,2.5rem);max-width:1180px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.6rem}
+.stat{padding:1.1rem 1.2rem;border:1px solid var(--line);background:var(--panel)}
+.stat b{display:block;font-size:1.9rem;color:var(--gold-b)}
+.stat span{color:var(--dim);font:500 .62rem var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
+.card{border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column}
+.card img{width:100%;display:block;border-bottom:1px solid var(--line)}
+.card .body{padding:1rem;display:flex;flex-direction:column;gap:.7rem;flex:1}
+.card textarea{width:100%;min-height:110px;padding:.6rem;border:1px solid var(--line);background:var(--ink);color:var(--cream);font-family:var(--serif);font-size:.85rem;resize:vertical}
+.plats{display:flex;flex-wrap:wrap;gap:.35rem}
+.plats label{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .55rem;border:1px solid var(--line);color:var(--dim);font:500 .6rem var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.plats label:has(input:checked){border-color:var(--gold);color:var(--gold-b);background:var(--panel2)}
+.plats input{display:none}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+button.act{padding:.6rem 1rem;border:1px solid var(--gold);background:linear-gradient(110deg,#81500d,var(--gold-b) 55%,#b97815);color:var(--ink);font:700 .64rem var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+button.ghost{padding:.6rem 1rem;border:1px solid var(--line);background:transparent;color:var(--cream);font:600 .64rem var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+input[type=datetime-local],input[type=text]{padding:.55rem;border:1px solid var(--line);background:var(--ink);color:var(--cream);font-family:var(--serif)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:.6rem .7rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--dim);font:600 .6rem var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.tag{display:inline-block;padding:.15rem .5rem;border:1px solid var(--line);font:600 .58rem var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.tag.posted{border-color:var(--ok);color:var(--ok)}
+.tag.scheduled{border-color:var(--gold);color:var(--gold-b)}
+.tag.failed{border-color:var(--bad);color:var(--bad)}
+.note{color:var(--dim);font-size:.85rem;line-height:1.55}
+.panel{border:1px solid var(--line);background:var(--panel);padding:1.4rem;margin-bottom:1.2rem}
+.panel h3{margin:0 0 .6rem;color:var(--gold-b);letter-spacing:.1em;font-weight:600}
+.copybox{display:flex;gap:.5rem;align-items:center;margin-top:.7rem}
+.copybox input{flex:1}
+.toast{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%);padding:.8rem 1.4rem;border:1px solid var(--gold);background:var(--panel2);color:var(--gold-b);font:600 .7rem var(--mono);letter-spacing:.12em;display:none;z-index:50}
+.hist{color:var(--dim);font:500 .62rem var(--mono)}
+section{display:none}section.show{display:block}
+h2.title{margin:.2rem 0 1.2rem;font-weight:600;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><b>COSMIC COURT</b><span>MARKETING STUDIO · KINGDOM PUBLICATIONS</span></div>
+  <div class="hbtns"><button class="ghost" onclick="window.open('/','_blank')">View site</button><button class="ghost" onclick="logout()">Sign out</button></div>
+</header>
+<nav id="tabs">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="content">Content studio</button>
+  <button data-tab="schedule">Schedule</button>
+  <button data-tab="leads">Reader leads</button>
+  <button data-tab="social">Socials</button>
+</nav>
+<main>
+  <section id="overview" class="show">
+    <h2 class="title">The record at a glance</h2>
+    <div class="cards" id="statcards"></div>
+    <div class="panel"><h3>How this studio works</h3>
+      <p class="note">Every card in the Content studio is a ready-made post: branded graphic plus caption. Post it now, schedule it for a specific day, or press Auto-queue daily to line up one post per day automatically. Reader emails collected on the website appear under Reader leads. Connect Iesha's accounts once under Socials and everything posts straight to them.</p>
+    </div>
+  </section>
+
+  <section id="content">
+    <h2 class="title">Content studio</h2>
+    <div class="row" style="margin-bottom:1.1rem">
+      <span class="note">Default platforms for new posts:</span>
+      <div class="plats" id="defaultPlats"></div>
+    </div>
+    <div class="grid" id="contentGrid"></div>
+  </section>
+
+  <section id="schedule">
+    <h2 class="title">Posting schedule</h2>
+    <div class="panel"><h3>Auto-queue daily</h3>
+      <p class="note">Lines up every unused content card as one post per day at 9:00 AM Pacific, starting tomorrow.</p>
+      <div class="row" style="margin-top:.7rem"><div class="plats" id="autoPlats"></div><button class="act" onclick="autoQueue()">Auto-queue daily</button></div>
+    </div>
+    <table><thead><tr><th>When</th><th>Post</th><th>Platforms</th><th>Status</th><th></th></tr></thead><tbody id="schedBody"></tbody></table>
+  </section>
+
+  <section id="leads">
+    <h2 class="title">Reader leads</h2>
+    <div class="row" style="margin-bottom:1rem"><button class="ghost" onclick="location.href='/api/admin/leads.csv'">Download CSV</button></div>
+    <table><thead><tr><th>Email</th><th>Name</th><th>Source</th><th>Joined</th></tr></thead><tbody id="leadsBody"></tbody></table>
+  </section>
+
+  <section id="social">
+    <h2 class="title">Social accounts</h2>
+    <div id="socialBox"></div>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const PLATFORMS=['instagram','facebook','tiktok','x','threads','linkedin','pinterest'];
+const $=(s)=>document.querySelector(s);
+let CONTENT=[];
+
+function toast(msg,bad){const t=$('#toast');t.textContent=msg;t.style.display='block';t.style.borderColor=bad?'#e08a7a':'#c9a24b';t.style.color=bad?'#e08a7a':'#deba6a';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',3800);}
+async function api(path,opts){const r=await fetch(path,Object.assign({headers:{'Content-Type':'application/json'}},opts));if(r.status===401){location.reload();throw new Error('signed out');}const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('Request failed: '+r.status));return j;}
+function platPicker(el,defaults){el.innerHTML=PLATFORMS.map(p=>`<label><input type="checkbox" value="${p}" ${defaults.includes(p)?'checked':''}/><span>${p}</span></label>`).join('');}
+function picked(el){return [...el.querySelectorAll('input:checked')].map(i=>i.value);}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+// tabs
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('main section').forEach(s=>s.classList.toggle('show',s.id===b.dataset.tab));if(b.dataset.tab==='schedule')loadSchedule();if(b.dataset.tab==='leads')loadLeads();if(b.dataset.tab==='social')loadSocial();if(b.dataset.tab==='overview')loadOverview();});
+
+async function loadOverview(){try{const o=await api('/api/admin/overview');$('#statcards').innerHTML=`
+  <div class="stat"><b>${o.leads}</b><span>Reader leads</span></div>
+  <div class="stat"><b>${o.scheduled}</b><span>Posts scheduled</span></div>
+  <div class="stat"><b>${o.posted}</b><span>Posts published</span></div>
+  <div class="stat"><b>${o.socialConfigured?'ON':'OFF'}</b><span>Posting service</span></div>`;}catch(e){toast(e.message,1);}}
+
+async function loadContent(){const d=await api('/api/admin/content');CONTENT=d.items;const dp=picked($('#defaultPlats'));$('#contentGrid').innerHTML=CONTENT.map((c,i)=>{
+  const hist=c.history.map(h=>`<div class="hist">${h.status.toUpperCase()} · ${new Date(h.at).toLocaleString()} · ${h.platforms.join(', ')}</div>`).join('');
+  return `<div class="card"><img loading="lazy" src="/${c.image}" alt=""/><div class="body">
+    <textarea id="cap-${i}">${esc(c.caption)}</textarea>
+    <div class="plats" id="pl-${i}"></div>
+    <div class="row"><button class="act" onclick="postNow(${i})">Post now</button>
+    <input type="datetime-local" id="dt-${i}"/><button class="ghost" onclick="schedOne(${i})">Schedule</button>
+    <a class="ghost" style="text-decoration:none;padding:.6rem 1rem;border:1px solid var(--line);font:600 .64rem var(--mono);letter-spacing:.12em;text-transform:uppercase" href="/${c.image}" download>Download</a></div>
+    ${hist}</div></div>`;}).join('');
+  CONTENT.forEach((c,i)=>platPicker(document.getElementById('pl-'+i),dp.length?dp:['instagram','facebook']));}
+
+async function postNow(i){const c=CONTENT[i];const plats=picked(document.getElementById('pl-'+i));if(!plats.length)return toast('Pick at least one platform',1);const btns=event.target;btns.disabled=true;try{await api('/api/admin/post-now',{method:'POST',body:JSON.stringify({contentId:c.id,image:c.image,caption:document.getElementById('cap-'+i).value,platforms:plats})});toast('Posted to '+plats.join(', '));loadContent();}catch(e){toast(e.message,1);}finally{btns.disabled=false;}}
+
+async function schedOne(i){const c=CONTENT[i];const plats=picked(document.getElementById('pl-'+i));const dt=document.getElementById('dt-'+i).value;if(!plats.length)return toast('Pick at least one platform',1);if(!dt)return toast('Pick a date and time',1);try{await api('/api/admin/schedule',{method:'POST',body:JSON.stringify({contentId:c.id,image:c.image,caption:document.getElementById('cap-'+i).value,platforms:plats,postAt:new Date(dt).toISOString()})});toast('Scheduled for '+new Date(dt).toLocaleString());loadContent();}catch(e){toast(e.message,1);}}
+
+async function loadSchedule(){const d=await api('/api/admin/schedule');$('#schedBody').innerHTML=d.schedule.map(s=>`<tr>
+  <td>${new Date(s.postAt).toLocaleString()}</td>
+  <td style="max-width:320px">${esc((s.caption||'').slice(0,90))}…</td>
+  <td>${(s.platforms||[]).join(', ')}</td>
+  <td><span class="tag ${s.status}">${s.status}</span>${s.error?`<div class="hist">${esc(s.error.slice(0,120))}</div>`:''}</td>
+  <td>${s.status==='scheduled'?`<button class="ghost" onclick="cancelItem('${s.id}')">Cancel</button>`:''}</td></tr>`).join('')||'<tr><td colspan="5" class="note">Nothing scheduled yet.</td></tr>';}
+
+async function cancelItem(id){await api('/api/admin/schedule/'+id,{method:'DELETE'});loadSchedule();toast('Canceled');}
+
+async function autoQueue(){const plats=picked($('#autoPlats'));if(!plats.length)return toast('Pick platforms first',1);try{const d=await api('/api/admin/schedule/auto',{method:'POST',body:JSON.stringify({platforms:plats,hourUtc:16})});toast('Queued '+d.added+' daily posts');loadSchedule();}catch(e){toast(e.message,1);}}
+
+async function loadLeads(){const d=await api('/api/admin/leads');$('#leadsBody').innerHTML=d.leads.map(l=>`<tr><td>${esc(l.email)}</td><td>${esc(l.name||'')}</td><td>${esc(l.source||'')}</td><td>${l.createdAt?new Date(l.createdAt).toLocaleDateString():''}</td></tr>`).join('')||'<tr><td colspan="4" class="note">No signups yet. The form is live on the website.</td></tr>';}
+
+async function loadSocial(){const box=$('#socialBox');box.innerHTML='<p class="note">Checking…</p>';const d=await api('/api/admin/social');
+ if(!d.configured){box.innerHTML=`<div class="panel"><h3>One-time setup needed</h3><p class="note">
+ The studio posts through Upload-Post, a service that connects Instagram, Facebook, TikTok, X, Threads, LinkedIn and Pinterest in one place.<br/><br/>
+ 1. Create an account at <b>upload-post.com</b> and copy your API key from the dashboard.<br/>
+ 2. In Railway, open the <b>site</b> service, go to <b>Variables</b>, and add <b>UPLOAD_POST_API_KEY</b> with that key.<br/>
+ 3. Railway redeploys automatically. Come back here and this page will unlock.</p></div>`;return;}
+ let html='';
+ if(d.error){html+=`<div class="panel"><h3>Service error</h3><p class="note">${esc(d.error)}</p></div>`;}
+ const profiles=(d.profiles&&(d.profiles.profiles||d.profiles.users||d.profiles))||[];
+ const list=Array.isArray(profiles)?profiles:[];
+ html+=`<div class="panel"><h3>Profiles</h3>`;
+ if(list.length){html+='<table><thead><tr><th>Profile</th><th>Connected accounts</th></tr></thead><tbody>'+list.map(p=>{const accts=p.social_accounts?Object.entries(p.social_accounts).filter(([,v])=>v&&(v.handle||v.display_name||v.username)).map(([k,v])=>`${k}: ${esc(v.display_name||v.handle||v.username||'connected')}`).join('<br/>'):'';return `<tr><td>${esc(p.username||p.name||'')}</td><td>${accts||'<span class=\"note\">none yet</span>'}</td></tr>`;}).join('')+'</tbody></table>';}
+ else{html+='<p class="note">No profiles yet. Create one for Iesha below.</p>';}
+ html+=`<div class="row" style="margin-top:1rem"><button class="act" onclick="createProfile()">Create profile "${esc(d.profile)}"</button>
+ <button class="ghost" onclick="connectLink()">Generate connect link for Iesha</button></div>
+ <div class="copybox" id="linkbox" style="display:none"><input type="text" id="connecturl" readonly/><button class="ghost" onclick="copyLink()">Copy</button></div>
+ <p class="note" style="margin-top:.8rem">Send the connect link to Iesha. She opens it, signs in to each social account once, and from then on everything posted here goes to her accounts.</p></div>`;
+ box.innerHTML=html;}
+
+async function createProfile(){try{await api('/api/admin/social/profile',{method:'POST',body:JSON.stringify({})});toast('Profile ready');loadSocial();}catch(e){toast(e.message,1);}}
+async function connectLink(){try{const d=await api('/api/admin/social/connect',{method:'POST',body:JSON.stringify({})});const url=(d.out&&(d.out.access_url||d.out.url||d.out.connect_url))||JSON.stringify(d.out);$('#linkbox').style.display='flex';$('#connecturl').value=url;toast('Connect link generated');}catch(e){toast(e.message,1);}}
+function copyLink(){navigator.clipboard.writeText($('#connecturl').value);toast('Copied');}
+async function logout(){await fetch('/admin/logout',{method:'POST'});location.reload();}
+
+platPicker($('#defaultPlats'),['instagram','facebook']);
+platPicker($('#autoPlats'),['instagram','facebook']);
+loadOverview();loadContent();
+</script>
+</body>
+</html>
