@@ -78,25 +78,34 @@ app.set('trust proxy', 1);
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
 // ---------- public: reader list signup ----------
+const LEAD_SOURCES = new Set(['website', 'free-chapter']);
 app.post('/api/leads', (req, res) => {
-  const { name, email, company } = req.body || {};
-  if (company) return res.json({ ok: true }); // honeypot
+  const { name, email, company, source } = req.body || {};
+  if (company) return res.json({ ok: true, download: FREE_CHAPTER_PATH }); // honeypot
   const clean = String(email || '').trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(clean)) {
     return res.status(400).json({ ok: false, error: 'Please enter a valid email address.' });
   }
+  const src = LEAD_SOURCES.has(source) ? source : 'website';
   const leads = readJson('leads.json', []);
-  if (!leads.some((l) => l.email === clean)) {
+  const existing = leads.find((l) => l.email === clean);
+  if (!existing) {
     leads.push({
       email: clean,
       name: String(name || '').trim().slice(0, 120),
-      source: 'website',
+      source: src,
       createdAt: new Date().toISOString(),
     });
     writeJson('leads.json', leads);
+  } else if (src === 'free-chapter' && existing.source !== 'free-chapter') {
+    existing.source = `${existing.source}+free-chapter`;
+    writeJson('leads.json', leads);
   }
-  res.json({ ok: true });
+  const out = { ok: true };
+  if (src === 'free-chapter') out.download = FREE_CHAPTER_PATH;
+  res.json(out);
 });
+const FREE_CHAPTER_PATH = '/assets/cosmic-court-free-chapter.pdf';
 
 // ---------- admin auth ----------
 const LOGIN_PAGE = `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
