@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const uploadPost = require('./lib/uploadpost');
+const mailer = require('./lib/mailer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -106,6 +107,45 @@ app.post('/api/leads', (req, res) => {
   res.json(out);
 });
 const FREE_CHAPTER_PATH = '/assets/cosmic-court-free-chapter.pdf';
+
+// ---------- unsubscribe ----------
+app.get('/api/unsubscribe', (req, res) => {
+  const email = String(req.query.email || '').toLowerCase();
+  const token = String(req.query.token || '');
+  if (!email || token !== mailer.unsubToken(email)) return res.status(400).send('Invalid unsubscribe link.');
+  const leads = readJson('leads.json', []);
+  const lead = leads.find((l) => l.email === email);
+  if (lead && !lead.unsubscribed) { lead.unsubscribed = true; writeJson('leads.json', leads); }
+  res.type('html').send('<body style="font-family:Georgia,serif;background:#0d0a07;color:#f4ecdc;display:grid;place-items:center;min-height:90vh"><div style="text-align:center"><h2 style="color:#deba6a">You are unsubscribed.</h2><p>No more emails from the Cosmic Court. Grace and peace.</p></div></body>');
+});
+
+// ---------- email nurture (runs inside the scheduler tick) ----------
+async function emailTick() {
+  if (!mailer.apiKey()) return;
+  const leads = readJson('leads.json', []);
+  const now = Date.now();
+  let changed = false;
+  for (const lead of leads) {
+    if (lead.unsubscribed) continue;
+    if (!String(lead.source || '').includes('free-chapter')) continue;
+    if (lead.email.endsWith('@cosmiccourtbook.com') || lead.email.endsWith('@example.com')) continue; // test entries
+    lead.emails = lead.emails || {};
+    const signup = new Date(lead.createdAt || now).getTime();
+    for (const [key, tpl] of Object.entries(mailer.TEMPLATES)) {
+      if (lead.emails[key]) continue;
+      if (now < signup + tpl.delayHours * 3600 * 1000) continue;
+      try {
+        await mailer.send({ to: lead.email, subject: tpl.subject, html: tpl.html(lead) });
+        lead.emails[key] = new Date().toISOString();
+      } catch (err) {
+        lead.emails[`${key}_error`] = String(err.message || err).slice(0, 200);
+      }
+      changed = true;
+      break; // at most one email per lead per tick
+    }
+  }
+  if (changed) writeJson('leads.json', leads);
+}
 
 // ---------- admin auth ----------
 const LOGIN_PAGE = `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
@@ -351,6 +391,7 @@ async function schedulerTick() {
       changed = true;
     }
     if (changed) writeJson('schedule.json', schedule);
+    await emailTick();
   } catch (err) {
     console.error('scheduler error', err);
   } finally {

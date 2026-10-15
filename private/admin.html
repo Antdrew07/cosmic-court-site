@@ -95,7 +95,7 @@ h2.title{margin:.2rem 0 1.2rem;font-weight:600;letter-spacing:.06em}
   <section id="leads">
     <h2 class="title">Reader leads</h2>
     <div class="row" style="margin-bottom:1rem"><button class="ghost" onclick="location.href='/api/admin/leads.csv'">Download CSV</button></div>
-    <table><thead><tr><th>Email</th><th>Name</th><th>Source</th><th>Joined</th></tr></thead><tbody id="leadsBody"></tbody></table>
+    <table><thead><tr><th>Email</th><th>Name</th><th>Source</th><th>Joined</th><th>Emails sent</th></tr></thead><tbody id="leadsBody"></tbody></table>
   </section>
 
   <section id="social">
@@ -150,7 +150,7 @@ async function cancelItem(id){await api('/api/admin/schedule/'+id,{method:'DELET
 
 async function autoQueue(){const plats=picked($('#autoPlats'));if(!plats.length)return toast('Pick platforms first',1);try{const d=await api('/api/admin/schedule/auto',{method:'POST',body:JSON.stringify({platforms:plats,hourUtc:16})});toast('Queued '+d.added+' daily posts');loadSchedule();}catch(e){toast(e.message,1);}}
 
-async function loadLeads(){const d=await api('/api/admin/leads');$('#leadsBody').innerHTML=d.leads.map(l=>`<tr><td>${esc(l.email)}</td><td>${esc(l.name||'')}</td><td>${esc(l.source||'')}</td><td>${l.createdAt?new Date(l.createdAt).toLocaleDateString():''}</td></tr>`).join('')||'<tr><td colspan="4" class="note">No signups yet. The form is live on the website.</td></tr>';}
+async function loadLeads(){const d=await api('/api/admin/leads');$('#leadsBody').innerHTML=d.leads.map(l=>{const sent=l.emails?Object.keys(l.emails).filter(k=>!k.endsWith('_error')).join(', '):'';const stat=l.unsubscribed?'<span class="tag failed">unsubscribed</span>':esc(sent);return `<tr><td>${esc(l.email)}</td><td>${esc(l.name||'')}</td><td>${esc(l.source||'')}</td><td>${l.createdAt?new Date(l.createdAt).toLocaleDateString():''}</td><td>${stat}</td></tr>`;}).join('')||'<tr><td colspan="5" class="note">No signups yet. The form is live on the website.</td></tr>';}
 
 async function loadSocial(){const box=$('#socialBox');box.innerHTML='<p class="note">Checking…</p>';const d=await api('/api/admin/social');
  if(!d.configured){box.innerHTML=`<div class="panel"><h3>One-time setup needed</h3><p class="note">
