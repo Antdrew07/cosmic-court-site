@@ -48,6 +48,23 @@
     footer { border-top:1px solid rgba(17,16,13,.12); padding:1.4rem 0 2.2rem; color:rgba(48,45,39,.6); font-size:.8rem; text-align:center; }
     footer a { color:var(--gold-dark); }
   </style>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '468254217981545');
+  fbq('track', 'PageView');
+  // Buy-button clicks (Amazon / Barnes & Noble)
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || !window.fbq) return;
+    var h = a.href;
+    if (h.indexOf('a.co/') > -1 || h.indexOf('amazon.') > -1 || h.indexOf('barnesandnoble.com') > -1) {
+      fbq('track', 'InitiateCheckout', { content_name: 'Cosmic Court', value: 24.99, currency: 'USD', store: h.indexOf('barnesandnoble') > -1 ? 'Barnes & Noble' : 'Amazon' });
+    }
+  }, true);
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=468254217981545&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
   <div class="top"><div class="wrap"><a href="/">COSMIC <span>COURT</span> · THE LEGALIST</a></div></div>
@@ -95,6 +112,7 @@
           .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
           .then(function (res) {
             if (res.ok) {
+              if (window.fbq) fbq('track', 'Lead', { content_name: 'Cosmic Court Free Chapter' });
               if (res.j.download) document.getElementById('fc-dl').setAttribute('href', res.j.download);
               form.style.display = 'none'; success.style.display = 'block';
             } else { note.textContent = res.j.error || 'Something went wrong. Please try again.'; }
