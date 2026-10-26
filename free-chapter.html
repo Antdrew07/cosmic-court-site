@@ -58,8 +58,8 @@
     var a = e.target.closest && e.target.closest('a[href]');
     if (!a || !window.fbq) return;
     var h = a.href;
-    if (h.indexOf('a.co/') > -1 || h.indexOf('amazon.') > -1 || h.indexOf('barnesandnoble.com') > -1) {
-      fbq('track', 'InitiateCheckout', { content_name: 'Cosmic Court', value: 24.99, currency: 'USD', store: h.indexOf('barnesandnoble') > -1 ? 'Barnes & Noble' : 'Amazon' });
+    if (h.indexOf('a.co/') > -1 || h.indexOf('amazon.') > -1 || h.indexOf('barnesandnoble.com') > -1 || h.indexOf('/go/amazon') > -1 || h.indexOf('/go/bn') > -1) {
+      fbq('track', 'InitiateCheckout', { content_name: 'Cosmic Court', value: 24.99, currency: 'USD', store: (h.indexOf('barnesandnoble') > -1 || h.indexOf('/go/bn') > -1) ? 'Barnes & Noble' : 'Amazon' });
     }
   }, true);
   </script>
@@ -94,7 +94,7 @@
         <h2>The file is yours.</h2>
         <p>Your free chapter is ready. The court record awaits.</p>
         <a class="dl" id="fc-dl" href="/assets/cosmic-court-free-chapter.pdf" download>Download the chapter</a>
-        <p class="buy">Ready for the whole case? <a href="https://a.co/d/03QthpNm" target="_blank" rel="noopener">Get it on Amazon</a> or <a href="https://www.barnesandnoble.com/w/cosmic-court-iesha-golden/1151331761?ean=9798995775324" target="_blank" rel="noopener">Barnes &amp; Noble</a>.</p>
+        <p class="buy">Ready for the whole case? <a href="/go/amazon?src=site-freechapter" target="_blank" rel="noopener">Get it on Amazon</a> or <a href="/go/bn?src=site-freechapter" target="_blank" rel="noopener">Barnes &amp; Noble</a>.</p>
       </div>
     </div>
   </main>

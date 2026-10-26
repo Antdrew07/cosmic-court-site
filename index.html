@@ -232,8 +232,8 @@
     var a = e.target.closest && e.target.closest('a[href]');
     if (!a || !window.fbq) return;
     var h = a.href;
-    if (h.indexOf('a.co/') > -1 || h.indexOf('amazon.') > -1 || h.indexOf('barnesandnoble.com') > -1) {
-      fbq('track', 'InitiateCheckout', { content_name: 'Cosmic Court', value: 24.99, currency: 'USD', store: h.indexOf('barnesandnoble') > -1 ? 'Barnes & Noble' : 'Amazon' });
+    if (h.indexOf('a.co/') > -1 || h.indexOf('amazon.') > -1 || h.indexOf('barnesandnoble.com') > -1 || h.indexOf('/go/amazon') > -1 || h.indexOf('/go/bn') > -1) {
+      fbq('track', 'InitiateCheckout', { content_name: 'Cosmic Court', value: 24.99, currency: 'USD', store: (h.indexOf('barnesandnoble') > -1 || h.indexOf('/go/bn') > -1) ? 'Barnes & Noble' : 'Amazon' });
     }
   }, true);
   </script>
@@ -251,7 +251,7 @@
           <a href="#docket">The Docket</a>
           <a href="#author">The Author</a>
         </nav>
-        <a class="nav-cta" href="https://a.co/d/03QthpNm" target="_blank" rel="noopener">Order now</a>
+        <a class="nav-cta" href="/go/amazon?src=site-nav" target="_blank" rel="noopener">Order now</a>
       </div>
     </header>
 
@@ -263,7 +263,7 @@
             <h1 class="hero-title" id="hero-title" data-reveal>Heaven has a <span class="gold">courtroom.</span></h1>
             <p class="hero-dek" data-reveal><b>The Accuser has your file.</b> Enter the unseen legal war being waged over every human soul.</p>
             <div class="hero-actions" data-reveal>
-              <a class="button gold" href="https://a.co/d/03QthpNm" target="_blank" rel="noopener">Order on Amazon</a>
+              <a class="button gold" href="/go/amazon?src=site-hero" target="_blank" rel="noopener">Order on Amazon</a>
               <button class="button" type="button" data-open-trailer><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg> Watch the film</button>
             </div>
             <div class="hero-notes" data-reveal><span>A novel by Iesha D. Golden</span><span>Paperback edition · 2026</span></div>
@@ -326,7 +326,7 @@
           <div class="kicker">The final word</div>
           <h2 class="verdict-quote" id="verdict-title">“You could call me many things. But I prefer the <em>Legalist.</em>”</h2>
           <p class="verdict-copy">The Accuser works day and night. But he has never won a case against a soul who calls on the name of Jesus.</p>
-          <div class="hero-actions verdict-actions"><a class="button gold" href="https://a.co/d/03QthpNm" target="_blank" rel="noopener">Order on Amazon</a><a class="button" href="https://www.barnesandnoble.com/w/cosmic-court-iesha-golden/1151331761?ean=9798995775324" target="_blank" rel="noopener">Barnes &amp; Noble</a></div>
+          <div class="hero-actions verdict-actions"><a class="button gold" href="/go/amazon?src=site-verdict" target="_blank" rel="noopener">Order on Amazon</a><a class="button" href="/go/bn?src=site-verdict" target="_blank" rel="noopener">Barnes &amp; Noble</a></div>
         </div>
       </section>
 

@@ -108,6 +108,25 @@ app.post('/api/leads', (req, res) => {
 });
 const FREE_CHAPTER_PATH = '/assets/cosmic-court-free-chapter.pdf';
 
+// ---------- buy-link click tracking ----------
+const STORE_URLS = {
+  amazon: 'https://a.co/d/03QthpNm',
+  bn: 'https://www.barnesandnoble.com/w/cosmic-court-iesha-golden/1151331761?ean=9798995775324',
+};
+app.get('/go/:store', (req, res) => {
+  const store = String(req.params.store || '').toLowerCase();
+  const url = STORE_URLS[store];
+  if (!url) return res.redirect('/');
+  const src = (String(req.query.src || '').slice(0, 40).replace(/[^a-z0-9_-]/gi, '') || 'direct').toLowerCase();
+  try {
+    const clicks = readJson('clicks.json', []);
+    clicks.push({ ts: new Date().toISOString(), store, src });
+    if (clicks.length > 20000) clicks.splice(0, clicks.length - 20000);
+    writeJson('clicks.json', clicks);
+  } catch (_) { /* tracking must never block the redirect */ }
+  res.redirect(302, url);
+});
+
 // ---------- unsubscribe ----------
 app.get('/api/unsubscribe', (req, res) => {
   const email = String(req.query.email || '').toLowerCase();
@@ -235,6 +254,21 @@ app.get('/api/admin/leads.csv', requireAuth, (_req, res) => {
   const csv = rows.map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
   res.setHeader('Content-Disposition', 'attachment; filename="cosmic-court-leads.csv"');
   res.type('text/csv').send(csv);
+});
+
+app.get('/api/admin/clicks', requireAuth, (_req, res) => {
+  const clicks = readJson('clicks.json', []);
+  const byStore = {};
+  const bySrc = {};
+  const byDay = {};
+  for (const c of clicks) {
+    byStore[c.store] = (byStore[c.store] || 0) + 1;
+    const key = `${c.src} → ${c.store}`;
+    bySrc[key] = (bySrc[key] || 0) + 1;
+    const day = String(c.ts || '').slice(0, 10);
+    byDay[day] = (byDay[day] || 0) + 1;
+  }
+  res.json({ total: clicks.length, byStore, bySrc, byDay, recent: clicks.slice(-25).reverse() });
 });
 
 app.get('/api/admin/schedule', requireAuth, (_req, res) => {
